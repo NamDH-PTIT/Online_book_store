@@ -1,0 +1,17 @@
+.bg-lightblue {
+    background-color: rgb(41, 54, 74) !important;
+}
+.custom-text-white{
+    color: white !important;
+}
+.custom-text-white{
+    color: white!important;
+}
+.infor{
+
+    width:82vw;
+    background-color:aquamarine;
+}
+.text-center{
+        text-align: center;
+}
