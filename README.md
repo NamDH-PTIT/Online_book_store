@@ -5,12 +5,13 @@
 - Spring security
 - Spring mô hình MVC
 - JavaServerPage
-- SendMail
+
 
 ## 🌟 Tính năng chính
 - 📖 Quản lý sách
 - 👥 Quản lý người dùng
 - 🛒 Hệ thống giỏ hàng
 - 🔐 Xác thực người dùng
-- quên mật khẩu gửi email
+- Quên mật khẩu gửi email(SMTP)
+- Phân Quyền theo Role người dùng 
   
