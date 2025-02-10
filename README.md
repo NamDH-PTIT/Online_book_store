@@ -1,11 +1,11 @@
 # 📚 Online Book Store
 
 ## Các công nghệ người dùng:
--Spring Data JPA
--Spring security
--Spring mô hình MVC
--JavaServerPage
--SendMail
+- Spring Data JPA
+- Spring security
+- Spring mô hình MVC
+- JavaServerPage
+- SendMail
 
 ## 🌟 Tính năng chính
 - 📖 Quản lý sách
