@@ -26,7 +26,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -270,31 +269,23 @@ public class AdminService {
             phieuNhapRepository.save(phieuNhap);
         }
     }
-    public boolean validate(HttpSession session,String otp)
-    {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        OtpData otpData=(OtpData)session.getAttribute("otpData");
-        if(otpData==null)
-            return false;
-        else{
-            LocalDateTime now=LocalDateTime.now();
-            LocalDateTime otpdata=otpData.getDate();
-            if(now.isAfter(otpdata))
-                return false;
-            return otp.equals(otpData.getOtp());
-        }
+    public boolean validate(HttpSession session, String otp) {
+        OtpData otpData = (OtpData) session.getAttribute("otpData");
+        return otpData != null
+                && !LocalDateTime.now().isAfter(otpData.getDate())
+                && otp.equals(otpData.getOtp());
     }
-    public boolean checkRequestOtp(String username,String email)
+
+    public boolean checkRequestOtp(String username, String email) {
+        return userRepository.findByAccountname(username)
+                .map(user -> user.getEmail().equals(email))
+                .orElse(false);
+    }
+
+
+    public List<Book> getQuantity()
     {
-        Optional<Users> users=userRepository.findByAccountname(username);
-        if(!users.isPresent())
-            return false;
-        else
-        {
-            return users.get().getEmail().equals(email);
-        }
-        }
-
-
+        return bookRepository.getQuantityBook();
+    }
 
 }

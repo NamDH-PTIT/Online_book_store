@@ -4,8 +4,6 @@ import com.example.Online_book_store.filtercustom.JWTAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -36,7 +34,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET,"account/profile").hasRole("USER")
                 .requestMatchers(HttpMethod.GET,"admin/**").hasRole("ADMIN")
                 .requestMatchers("/WEB-INF/views/**").permitAll()
-                .requestMatchers("/img/**", "/css/**", "/js/**").permitAll()
+                .requestMatchers("/img/**", "/css/**", "/js/**", "/resources/**").permitAll()
                 .anyRequest().authenticated()
 
         );

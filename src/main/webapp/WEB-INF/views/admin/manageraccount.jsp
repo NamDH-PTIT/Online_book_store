@@ -2,88 +2,124 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 
-
-
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
-    <script type="text/javascript" >
-        function edit(id)
-        {
-            if(confirm("bạn muốn sửa thông tin khách hàng "+id+"?"))
-            {
-                window.location="editusers?accountname="+id;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Tài Khoản</title>
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <script type="text/javascript">
+        function edit(id) {
+            if (confirm("Bạn muốn sửa thông tin khách hàng " + id + "?")) {
+                window.location = "editusers?accountname=" + id;
             }
         }
     </script>
+
+    <style>
+        /* Đảm bảo chữ căn giữa và đồng nhất với file base */
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+            font-size: 16px; /* Chỉnh cỡ chữ */
+            padding: 12px; /* Khoảng cách đều nhau */
+        }
+
+
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tăng chiều rộng cột để chữ không bị chồng */
+        .table td, .table th {
+            white-space: nowrap; /* Không xuống dòng chữ */
+        }
+    </style>
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-lightblue">
-            <jsp:include page="basemenu.jsp" />
-        </div>
-        <div class="col py-3">
-            <div style="text-align: center;">
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <!-- Sidebar -->
+            <div class="col-auto col-md-3 col-xl-2 bg-dark text-white p-3">
+                <jsp:include page="basemenu.jsp" />
+            </div>
 
-                <h2>Quản Lý Tài Khoản </h2>
-                <div class="infor" style="text-align: center;">
-                    <div style="background-color: white;">
-                        <form action="" method="get">
-                            tên người dùng : <input type="text" name="name" >
-                            số điện thoại :<input type="text" name="phone" >
-                            <input type="submit" value="tìm">
-                        </form>
-                        <br>
-                    </div>
-                    <table style="width: 100%; border: 1px solid black;">
-                        <thead>
-                        <tr>
-                            <th style="border: 1px solid black;">Tên tài khoản </th>
-                            <th style="border: 1px solid black;">Số Điện Thoại</th>
-                            <th style="border: 1px solid black;">Tên Người dùng</th>
-                            <th style="border: 1px solid black;">Role</th>
-                            <td style="border: 1px solid black;">Password</td>
-                            <td style="border: 1px solid black;">Email</td>
-                            <th style="border: 1px solid black;">edit</th>
+            <!-- Main Content -->
+            <div class="col py-3">
+                <div class="text-center">
+                    <h2>Quản Lý Tài Khoản</h2>
+                </div>
 
-                        </tr>
+                <!-- Form Tìm Kiếm -->
+                <div class="form-container mb-4">
+                    <form action="" method="get" class="row g-3">
+                        <div class="col-md-5">
+                            <label for="name" class="form-label">Tên người dùng:</label>
+                            <input type="text" class="form-control" name="name" id="name">
+                        </div>
+                        <div class="col-md-5">
+                            <label for="phone" class="form-label">Số điện thoại:</label>
+                            <input type="text" class="form-control" name="phone" id="phone">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">Tìm</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Bảng danh sách tài khoản -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th style="width: 15%;">Tên tài khoản</th>
+                                <th style="width: 15%;">Số Điện Thoại</th>
+                                <th style="width: 15%;">Tên Người dùng</th>
+                                <th style="width: 10%;">Role</th>
+                                <th style="width: 15%;">Password</th>
+                                <th style="width: 15%;">Email</th>
+                                <th style="width: 10%;">Thao Tác</th>
+                            </tr>
                         </thead>
                         <tbody>
-
                             <c:forEach var="user" items="${User}">
-                            <tr>
-                                <td style="border: 1px solid black;">${user.account_name}</td>
-                                <td style="border: 1px solid black;">${user.phone}</td>
-                                <td style="border: 1px solid black;">${user.name}</td>
-                                <td style="border: 1px solid black;">${user.role}</td>
-                                <td style="border: 1px solid black;">${user.password}</td>
-                                <td style="border: 1px solid black;">${user.email}</td>
-
-                                <td style="border: 1px solid black;">
-                                    <a href="#" onclick="edit('${user.account_name}')">sửa thông tin</a>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>${user.account_name}</td>
+                                    <td>${user.phone}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.role}</td>
+                                    <td>${user.password}</td>
+                                    <td>${user.email}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm" onclick="edit('${user.account_name}')">Sửa</button>
+                                    </td>
+                                </tr>
                             </c:forEach>
-
-
-
                         </tbody>
                     </table>
-
                 </div>
+
             </div>
         </div>
     </div>
-</div>
-
-
 </body>
 
 </html>
-
-
-

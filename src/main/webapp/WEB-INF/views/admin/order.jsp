@@ -1,80 +1,90 @@
-<%@page contentType="text/html;" pageEncoding="UTF-8" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
 
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
-    <script type="text/javascript">
-        function edit(id)
-        {
-            window.location="orderinfo?code="+id;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Đơn Hàng</title>
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <script>
+        function edit(id) {
+            if (confirm("Bạn muốn xem thông tin đơn hàng " + id + "?") ) {
+                window.location = "orderinfo?code=" + id;
+            }
+        }
     </script>
 </head>
 
 <body>
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-lightblue">
-            <jsp:include page="basemenu.jsp" />
-        </div>
-        <div class="col py-3">
-            <div style="text-align: center;">
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <!-- Sidebar -->
+            <div class="col-auto col-md-3 col-xl-2 bg-dark text-white p-3">
+                <jsp:include page="basemenu.jsp" />
+            </div>
 
-                <h2>Quản Lý Đơn Hàng </h2>
-                <div style="background-color: white;">
-                    <form action="" method="get">
-                        Mã Đơn Hàng : <input type="text" name="code" >
-                        Tên Khách Hàng :<input type="text" name="name" >
-                        <input type="submit" value="tìm">
-                    </form>
-                    <br>
+            <!-- Main Content -->
+            <div class="col py-3">
+                <div class="text-center">
+                    <h2>Quản Lý Đơn Hàng</h2>
+                    <div class="bg-white p-3 rounded shadow-sm">
+                        <form action="" method="get" class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <label for="code" class="col-form-label">Mã Đơn Hàng:</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="text" id="code" name="code" class="form-control">
+                            </div>
+                            <div class="col-auto">
+                                <label for="name" class="col-form-label">Tên Khách Hàng:</label>
+                            </div>
+                            <div class="col-auto">
+                                <input type="text" id="name" name="name" class="form-control">
+                            </div>
+                            <div class="col-auto">
+                                <input type="submit" value="Tìm" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="infor" style="text-align: center;">
 
-                    <table style="width: 100%; border: 1px solid black;">
-                        <thead>
-                        <tr>
-                            <th style="border: 1px solid black;">Mã đơn hàng </th>
-                            <th style="border: 1px solid black;">Tên khách hàng</th>
-                            <th style="border: 1px solid black;">Ngày</th>
-                            <th style="border: 1px solid black;">Trạng thái</th>
-                            <th style="border: 1px solid black;">Tổng tiền</th>
-
-                            <th style="border: 1px solid black;">Xem Thông Tin</th>
-
-                        </tr>
+                <!-- Order Table -->
+                <div class="table-responsive mt-4">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Mã Đơn Hàng</th>
+                                <th>Tên Khách Hàng</th>
+                                <th>Ngày</th>
+                                <th>Trạng Thái</th>
+                                <th>Tổng Tiền</th>
+                                <th>Thao Tác</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="itemorder" items="${order}">
-                            <tr>
-                                <td style="border:  1px solid black "> ${itemorder.code}</td>
-                                <td style="border:  1px solid black "> ${itemorder.customer}</td>
-                                <td style="border:  1px solid black "> ${itemorder.date}</td>
-                                <td style="border:  1px solid black "> ${itemorder.hinhThuc}</td>
-                                <td style="border:  1px solid black "> ${itemorder.total}</td>
-                                <td style="border:  1px solid black "><a href="#" onclick="edit('${itemorder.code}')">thông tin </a></td>
-
-                            </tr>
-                        </c:forEach>
-
-
+                            <c:forEach var="itemorder" items="${order}">
+                                <tr>
+                                    <td>${itemorder.code}</td>
+                                    <td>${itemorder.customer}</td>
+                                    <td>${itemorder.date}</td>
+                                    <td>${itemorder.hinhThuc}</td>
+                                    <td>${itemorder.total} VND</td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm" onclick="edit('${itemorder.code}')">Xem Thông Tin</button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-
 </body>
-
 </html>
-
-
-

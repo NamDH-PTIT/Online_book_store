@@ -13,4 +13,6 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     Optional<Book> findByTitle(String title);
     @Query(value = "SELECT * FROM book WHERE title LIKE %?1%", nativeQuery = true)
     List<Book> findBooksByTitle(String title);
+    @Query(value = "SELECT * FROM book WHERE soluongton < 20 ORDER BY soluongton ASC", nativeQuery = true)
+    List<Book> getQuantityBook();
 }

@@ -30,10 +30,12 @@ public class AdminController {
 
     AdminService adminService;
     EmailService emailService;
-    @GetMapping("home")
+    @GetMapping("/home")
     String getInfor(Model model) {
 
         List<UserResponse> userResponse = adminService.getRole("admin");
+        List<Book> books=adminService.getQuantity();
+        model.addAttribute("books",books);
         model.addAttribute("User", userResponse);
 
         return "admin/home";

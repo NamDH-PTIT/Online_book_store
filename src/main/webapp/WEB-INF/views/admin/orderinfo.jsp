@@ -1,154 +1,101 @@
 <%@page contentType="text/html;" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html lang="en">
-
-<html lang="en">
+<html lang="vi">
 <head>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Chi Tiết Đơn Hàng</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
-            height: 100vh; /* Chiều cao toàn màn hình */
-            position: relative; /* Để sử dụng position cho các phần tử con */
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        .card {
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
         }
         .header {
-            text-align: center;
-            padding: 10px 0;
-            background-color: #f4f4f4;
-            font-size: 24px;
-            font-weight: bold;
-            border-bottom: 2px solid #ccc;
-        }
-        .content {
-            flex: 1;
-            display: flex; /* Sắp xếp nội dung ngang */
-        }
-        .left, .right {
-            flex: 1;
-            display: flex;
-            align-items: center; /* Căn giữa theo trục dọc */
-            justify-content: center; /* Căn giữa theo trục ngang */
-            font-size: 24px;
-        }
-        .left {
-            background-color: #f0f0f0; /* Màu nền cho bên trái */
-        }
-        .right {
-            background-color: #d0e8f2; /* Màu nền cho bên phải */
-        }
-        .center-text {
-            position: absolute;
-            top: 50%; /* Đặt giữa trang theo chiều dọc */
-            left: 50%; /* Đặt giữa trang theo chiều ngang */
-            transform: translate(-50%, -50%); /* Dịch chuyển để căn giữa chính xác */
-            font-size: 36px;
-            font-weight: bold;
-            color: #333;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        form {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: left; /* Căn trái nội dung trong form */
-            width: 300px; /* Định kích thước cho form */
-        }
-        form input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        form input[type="submit"] {
-            width: 100%;
-            padding: 10px;
             background-color: #007bff;
-            color: #ffffff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
         }
-        form input[type="submit"]:hover {
-            background-color: #0056b3;
-
+        .form-control[readonly] {
+            background-color: #e9ecef;
+        }
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
         }
     </style>
 </head>
 <body>
-<div class="header">Đơn Hàng ${order.id} </div> <!-- Chữ ở đầu trang -->
 
-<div class="content">
-    <div class="left">
-        <div>
-            <h1></h1>
-
-
-                <form>
-                    <label for="id"> Tên Khách Hàng</label>
-                    <input type="text" id="id" name="id" value=" ${order.user.name}  " readonly><br>
-
-                    <label for="title"> Phone</label>
-                    <input type="text" id="title" name="title" value="${order.user.phone}  " readonly><br>
+<div class="container">
+    <div class="card">
+        <div class="header">Đơn Hàng #${order.id}</div>
+        <div class="row p-4">
+            <div class="col-md-4">
+                <h5>Thông Tin Khách Hàng</h5>
+                <form class="bg-light p-3 rounded">
+                    <div class="mb-3">
+                        <label class="form-label">Tên Khách Hàng:</label>
+                        <input type="text" class="form-control" value="${order.user.name}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Số Điện Thoại:</label>
+                        <input type="text" class="form-control" value="${order.user.phone}" readonly>
+                    </div>
                     <c:set var="n" value="0"/>
-
-                    <c:set var="detail" value="${order.orderDetailList}"/>
-                    <c:forEach var="orderdetail" items="${detail}">
-                        <c:set var="n" value="${n+orderdetail.price*orderdetail.quantity}"/>
-
+                    <c:forEach var="orderdetail" items="${order.orderDetailList}">
+                        <c:set var="n" value="${n + orderdetail.price * orderdetail.quantity}"/>
                     </c:forEach>
-                    <label for="price">Tổng tiền:</label>
-                    <input type="text" id="price" name="price" value="${n}"><br>
-
+                    <div class="mb-3">
+                        <label class="form-label">Tổng tiền:</label>
+                        <input type="text" class="form-control fw-bold text-danger" value="${n} VNĐ" readonly>
+                    </div>
                 </form>
-
-
-
-
-
+            </div>
+            <div class="col-md-8">
+                <h5>Chi Tiết Đơn Hàng</h5>
+                <table class="table table-bordered table-hover bg-white">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Mã Sản Phẩm</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Đơn Giá</th>
+                            <th>Thành Tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="orderDetail" items="${order.orderDetailList}">
+                            <tr>
+                                <td>${orderDetail.book.id}</td>
+                                <td>${orderDetail.book.title}</td>
+                                <td>${orderDetail.quantity}</td>
+                                <td>${orderDetail.price} VNĐ</td>
+                                <td class="fw-bold text-danger">${orderDetail.quantity * orderDetail.price} VNĐ</td>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div> <!-- Nội dung bên trái -->
-    <div class="right">
-        <table>
-            <thead><tr>
-                <th style="border: 1px solid black;">Mã Sản Phẩm</th>
-                <th style="border: 1px solid black;">Tên Sản Phẩm</th>
-                <th style="border: 1px solid black;">Số Lượng</th>
-                <th style="border: 1px solid black;">Đơn Giá</th>
-                <th style="border: 1px solid black;">Thành Tiền </th>
-            </tr></thead>
-            <tbody>
-            <c:forEach var="orderDetail" items="${order.orderDetailList}">
-
-                <tr><td style="border: 1px solid black;">${orderDetail.book.id}</td>
-                    <td style="border: 1px solid black;">${orderDetail.book.title}</td>
-                    <td style="border: 1px solid black;">${orderDetail.quantity}</td>
-                    <td style="border: 1px solid black;">${orderDetail.price}</td>
-                    <td style="border: 1px solid black;">${orderDetail.quantity*orderDetail.price}</td>
-                </tr>
-
-            </c:forEach>
-
-            </tbody>
-        </table>
-    </div> <!-- Nội dung bên phải -->
+        <div class="text-center p-3">
+            <a href="order" class="btn btn-secondary">Quay Lại</a>
+        </div>
+    </div>
 </div>
-<div style="height: 30px; text-align: center;font-size: 30px;"><a href="order">quay lại</a></div>
 
 </body>
 </html>
-
-
-

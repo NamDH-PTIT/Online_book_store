@@ -1,82 +1,155 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js">
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
-    <script type="text/javascript">
-        function edit(id)
-        {
-            if(confirm("bạn muốn sửa thông tin khách hàng "+id+"?"))
-            {
-                window.location="editusers?accountname="+id;
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <script>
+        function edit(id) {
+            if (confirm("Bạn muốn sửa thông tin khách hàng " + id + "?")) {
+                window.location = "editusers?accountname=" + id;
             }
         }
     </script>
+
+    <style>
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        .admin-img {
+            width: 120px;
+            height: auto;
+        }
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .sidebar {
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container-fluid {
+            height: 100vh;
+        }
+
+        .row {
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+    </style>
 </head>
 
-
 <body>
+    <div class="container-fluid" style="padding-top :0px;">
+        <div class="row flex-nowrap">
+            <!-- Sidebar -->
+<div class="col-auto col-md-3 col-xl-2 bg-dark text-white p-3">
+     <jsp:include page="basemenu.jsp" />
+</div>
 
-
-
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-lightblue">
-            <jsp:include page="basemenu.jsp" />
-        </div>
-        <div class="col py-3">
-
-            <div style="text-align: center;">
-                <img src="/img/images.png" alt="" >
-                <h2>thông tin admin </h2>
-            </div>
-            <div class="infor" style="text-align: center;">
-
-                <div>
-
+            <!-- Main Content -->
+            <div class="col py-3">                <!-- Admin Info -->
+                <div class="text-center">
+                    <img src="/img/images.png" alt="Admin Logo" class="admin-img mb-3">
+                    <h2>Thông tin Admin</h2>
                 </div>
-                <div class="infor" style="text-align: center;">
 
-                    <table style="width: 100%;  border: 1px solid black;">
-                        <thead>
-                        <tr>
-                            <th style="border: 1px solid black;">Tên Người Dùng</th>
-                            <th style="border: 1px solid black;">Số Điện Thoại</th>
-                            <th style="border: 1px solid black;">Role</th>
-                            <th style="border: 1px solid black;">Tên Tài Khoản</th>
-                            <th style="border: 1px solid black;">Mật Khẩu</th>
-                            <th style="border: 1px solid black;">Edit</th>
-                        </tr>
-
-                        <tr>
+                <!-- User Table -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>Tên Người Dùng</th>
+                                <th>Số Điện Thoại</th>
+                                <th>Role</th>
+                                <th>Tên Tài Khoản</th>
+                                <th>Mật Khẩu</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             <c:forEach var="user" items="${User}">
-
-                                <td style="border: 1px solid black;">${user.name}</td>
-                                <td style="border: 1px solid black;">${user.phone}</td>
-                                <td style="border: 1px solid black;">${user.role}</td>
-                                <td style="border: 1px solid black;">${user.account_name}</td>
-                                <td style="border: 1px solid black;">${user.password}</td>
-                                <td style="border: 1px solid black;">
-                                    <a href="#" onclick="edit('${user.account_name}')" >sửa thông tin</a>
-
-                                </td>
+                                <tr>
+                                    <td>${user.name}</td>
+                                    <td>${user.phone}</td>
+                                    <td>${user.role}</td>
+                                    <td>${user.account_name}</td>
+                                    <td>${user.password}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm" onclick="edit('${user.account_name}')">Sửa</button>
+                                    </td>
+                                </tr>
                             </c:forEach>
-                        </tr>
-
-
+                        </tbody>
                     </table>
+                </div>
 
+                <!-- Sản phẩm sắp hết -->
+                <div class="text-center mt-4">
+                    <h2>Sản phẩm sắp hết</h2>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-danger">
+                            <tr>
+                                <th>Hình Ảnh</th>
+                                <th>Sản Phẩm</th>
+                                <th>Mô Tả</th>
+                                <th>Số Lượng Tồn</th>
+                                <th>Giá</th>
+                                <th>Thao Tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="book" items="${books}">
+                                <tr>
+                                    <td>
+                                        <img src="${book.img}" alt="Sản phẩm" class="product-img">
+                                    </td>
+                                    <td>${book.title}</td>
+                                    <td>${book.description}</td>
+                                    <td>${book.soluongton}</td>
+                                    <td>${book.price} VND</td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm" onclick="edit('${book.id}')">Thêm sách</button>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
 </body>
 
 </html>
